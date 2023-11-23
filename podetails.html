@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PO Details Project</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+    <style>
+        button:disabled {
+            cursor: not-allowed;
+            pointer-events: all !important;
+        }
+    </style>
+</head>
+
+<body>
+    <h1  align="center">  <u> IQRA TECHNOLOGY </u></h1>
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-6">
+                    <h3 class="text-success text-center">PO Details </h3>
+                    <form class="p-5 py-2 bg-light rounded" autocomplete="off" style="font-size: 20px">
+                        <p class="text-danger text-center h4" id="poError"></p>
+                        <div class="form-group">
+                            <label>Supplier Name:</label>
+                            <input type="text" class="form-control" id="poName" placeholder="Enter Name" />
+                        </div>
+                        <div class="form-group">
+                            <label>PO Amt</label>
+                            <input type="text" class="form-control" id="poValue1" placeholder="Enter Po Value" />
+                        </div>
+                        <div class="form-group">
+                            <label>Re-enter PO Amt</label>
+                            <input type="text" class="form-control" id="poValue2" placeholder="Repeat Po Value " />
+                        </div>
+                        <div class="form-group">
+                            <label>Paid Amt</label>
+                            <input type="text" class="form-control" id="paidAmt" placeholder="Enter Paid Amount" />
+                        </div>
+                        <div class="form-group">
+                            <label>Balance amount : (PO / Paid Amt)</label>
+                            <input type="text" class="form-control" id="balAmt" value="0" disabled readonly />
+                        </div>
+                        <div class="form-group">
+                            <label>Status</label>
+                            <input type="text" class="form-control" id="poStatus" value="Failed" readonly disabled />
+                        </div>
+                        <div class="d-flex justify-content-around">
+                            <button type="button" class="btn btn-primary" id="poValidate" onclick="Validation()">
+                                Validate
+                            </button>
+                            <button type="button" class="btn btn-success" id="poSubmitId" onclick="SubmitData()">
+                                Submit
+                            </button>
+
+                        </div>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>PoValue</th>
+                                <th>Paid Amount</th>
+                                <th>Bal Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody id="potableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+    <script>
+        let povalidate = document.getElementById("poValidate")
+        let posubmit = document.getElementById("poSubmitId")
+        let poname = document.getElementById("poName")
+        let povalue1 = document.getElementById("poValue1")
+        let povalue2 = document.getElementById("poValue2")
+        let paidamt = document.getElementById("paidAmt")
+        let balamt = document.getElementById("balAmt")
+
+        function Validation(){
+            let error = document.getElementById("poError")
+            let postatus = document.getElementById("poStatus")
+            povalidate.style.display = "block"
+            let errormsg = []
+            //poName
+            if (poname.value.trim() === "") {
+                errormsg.push("Please Enter Name");
+                poname.style.bordercolor = "red";
+            }
+            else{
+                let checkContainNum = false;
+                poname.value.split("").forEach((char) => {
+                    if(!isNaN(char)){
+                        checkContainNum = true
+                    }
+                });
+                if(checkContainNum){
+                    errormsg.push("Name should not contain Numbers");
+                    poname.style.borderColor = "red"
+                }
+                else if(poname.value.trim().length < 5 || poname.value.trim().length > 15){
+                    errormsg.push("Name must be between 5 to 15 characters");
+                    poname.style.borderColor = "red"
+                }else{
+                    console.log("Success");
+                    poname.style.borderColor = "green"
+                }
+            }
+
+            //povalue
+            if (povalue1.value.trim() === "" || isNaN(povalue1.value.trim())){
+                errormsg.push("Please enter po value(value must be a numbers)")
+                povalue1.style.borderColor = "red"
+            }else{
+                povalue1.style.borderColor = "green"
+            }
+
+            //Re Enter po value
+            if (povalue2.value.trim() === ""){
+                errormsg.push("Re-Enter po number")
+                povalue2.style.borderColor = "red"
+            }
+            else if(povalue2.value.trim() != povalue1.value.trim()){
+                errormsg.push("Po values Does not Match")
+                povalue2.style.borderColor = "red"
+            }else{
+                povalue2.style.borderColor = "green"
+            }
+            
+            //paid amt 
+            if(paidamt.value.trim() === ""){
+                errormsg.push("please enter paid amt")
+                paidamt.style.borderColor = "red"
+            }
+            else if(isNaN(paidamt.value.trim())){
+                errormsg.push("Paid amt should be a num")
+                paidamt.style.borderColor = "red"
+            }
+            else if(parseInt(povalue1.value.trim()) <= parseInt(paidamt.value.trim())){
+                errormsg.push("Paid amt must be less then or equal to po num");
+                paidamt.style.borderColor = "red"
+            }else{
+                paidamt.style.borderColor = "green"
+            }
+
+
+
+            if(errormsg.length > 0){
+                error.innerText = errormsg.join('\n');
+                postatus.value = "Failed!"
+                posubmit.disable = true;
+                return false
+            }
+            else{
+                error.innerText = "";
+                postatus.value = "Success";
+                povalidate.style.display = "none";
+                posubmit.disable = false
+                return true
+            }
+        }
+        
+        [povalue2, paidamt].forEach(element => {
+            element.addEventListener("keyup", ()=>{
+                if (!(povalue2.value.trim() && paidamt.value.trim)) {
+                    balamt.value = 0;
+                    
+                }else{
+                    balamt.value = Number(povalue2.value.trim()) - Number(paidamt.value.trim())
+                }
+            })
+        });
+
+        function SubmitData(){
+            if (Validation()) {
+                var data = `<tr>
+                            <td>${poname.value}</td>
+                            <td>${povalue1.value}</td>
+                            <td>${povalue2.value}</td>
+                            <td>${balamt.value}</td>
+                            </tr>`
+                let tableBody = document.getElementById("potableBody");
+                tableBody.innerHTML = data;
+                 
+                poname.value = ""
+                povalue1.value = ""
+                povalue2.value = ""
+                paidamt.value = ""
+                balamt.value = 0
+
+                document.getElementById("poError").innerText = "";
+                document.getElementById("poStatus").value = "Failed!";
+            }else{
+                alert("Please check your form validation")
+            }
+        }
+
+    </script>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mohammed Abbas</title>
+</head>
+<style>
+    body{
+        background-color: rgb(202, 202, 202);
+    }
+    img{
+        width: 458px;
+        height: 305px;
+    }
+    img:hover{
+        cursor: pointer;
+    }
+    #img1{
+        margin: 10px;
+    }
+    #img2{
+        margin: 10px;
+    }
+    #img3{
+        margin: 10px;
+    }
+    #previewImg{
+        border: 2px solid black;
+    }
+</style>
+<body>
+    <h1  align="center"> <u>IQRA TECHNOLOGY</u> </h1>
+    <h3>This Is an Image Interactive Project of Javascript </h3>
+    <div style="display: flex;">
+        <div id="img1"><img
+            src="https://plus.unsplash.com/premium_photo-1668456011159-89ec35e65325?q=80&w=1598&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            id="image1"></div>
+    <div id="img2"><img
+            src="https://images.unsplash.com/photo-1695115905524-d2e893fc7766?q=80&w=1587&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            id="image2"></div>
+    <div id="img3"><img
+            src="https://images.unsplash.com/photo-1695669089599-9461b72d6643?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            id="image3"></div>
+    </div>
+
+    <div>
+        <img src="abc.jpg" alt="" id="previewImg">
+    </div>
+
+    <script>
+
+        let img1 = document.getElementById("image1")
+        let img2 = document.getElementById("image2")
+        let img3 = document.getElementById("image3")
+        let prvImg = document.getElementById("previewImg")
+
+        img1.addEventListener("click", (el)=>{
+            prvImg.setAttribute("src",img1.src)
+        })
+        img2.addEventListener("click", (el)=>{
+            prvImg.setAttribute("src",img2.src)
+        })
+        img3.addEventListener("click", (el)=>{
+            prvImg.setAttribute("src",img3.src)
+        })
+    </script>
+</body>
+</html>
+
+

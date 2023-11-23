@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>Review Slider </title>
+</head>
+<body>
+  <h1  align="center"> IQRA TECHNOLOGY </h1>
+    <h1><u><i>Review Slider</i><u></h1>
+  <div class="slider-container" style="border: 2px solid black; width: 400px;">
+    <div id="review" class="review">
+      <p id="review-text"></p>
+    </div>
+    <img id="slider-image" src="img1.jpg" alt="Review Slider Image" onclick="nextReview()"width="400px">
+    <div class="buttons">
+      <button onclick="prevReview()">Prev</button>
+      <button onclick="nextReview()">Next</button>
+      <button onclick="randomReview()">Random</button>
+    </div>
+  </div>
+
+  <script src="slide.js"></script>
+</body>
+</html>

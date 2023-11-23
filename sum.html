@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1  align="center"> <u>IQRA TECHNOLOGY</u> </h1>
+    <h1><u> <i> Sum Game<i></u></h1>
+    Score<div id="score"></div><br>
+    <span id="num1"></span> + <span id="num2"></span><br>
+    <input type="text" id="input"><br><br>
+    <button id="check">Check</button>
+    <script>
+        
+        let Score = document.getElementById("score");
+        const Num1 = document.getElementById("num1");
+        const Num2 = document.getElementById("num2");
+        const Input = document.getElementById("input");
+        const CheckBtn = document.getElementById("check");
+
+        function changenumbers(){
+        let random1 = Math.floor(Math.random() * 30);
+        let random2 = Math.floor(Math.random() * 30);
+        Num1.innerHTML = random1;
+        Num2.innerHTML = random2;
+        }
+        changenumbers()
+        CheckBtn.addEventListener("click", ()=>{
+            if(Input.value == (parseInt(Num1.innerHTML)+ parseInt(Num2.innerHTML))){
+                UpdateScore();
+                changenumbers();
+                Input.value = '';
+            }else{
+                alert('Wrong Answer')
+            }
+        })
+
+        function UpdateScore(){
+            let score = parseInt(Score.innerText) || 0;
+            score++;
+            Score.innerText = score;
+        }
+
+
+        
+    </script>
+</body>
+</html>

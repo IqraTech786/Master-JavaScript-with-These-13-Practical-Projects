@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>Array Operations</title>
+</head>
+<body>
+  <h1  align="center"> <u>IQRA TECHNOLOGY</u> </h1>
+  <div class="container">
+    <h1 align="center">Array Operations </h1>
+
+    <div>
+      <label for="shiftBtn">Shift</label>
+      <button id="shiftBtn" onclick="performShift()">Shift</button>
+    </div>
+
+    <div>
+      <label for="unshiftBtn">Unshift</label>
+      <button id="unshiftBtn" onclick="performUnshift()">Unshift</button>
+    </div>
+
+    <div>
+      <label for="popBtn">Pop</label>
+      <button id="popBtn" onclick="performPop()">Pop</button>
+    </div>
+
+    <div>
+      <label for="removeAtIndex">Remove at Index</label>
+      <input type="number" id="removeAtIndex" placeholder="Enter Index">
+      <button onclick="performRemoveAtIndex()">Remove</button>
+    </div>
+
+    <div>
+      <label for="arrayDisplay">Array:</label>
+      <div id="arrayDisplay"></div>
+    </div>
+  </div>
+
+  <script src="playarray.js"></script>
+</body>
+</html>

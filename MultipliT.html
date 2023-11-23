@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    h1{
+        text-align: center;
+        color: white;
+        background-color: black;
+    }
+    #input{
+        text-align: center;
+    }
+    #outputdiv{
+        text-align: center;
+
+    }
+</style>
+<body>
+    <h1><u>IQRA TECHNOLOGY </u><br>Multiplication Table</h1>
+    <div id="input">
+        <label for="">Enter Number : </label>
+        <input type="text" id="number" min="1" required>
+        <label for="">Enter Limit : </label>
+        <input type="text" id="limit" min="1" required>
+        <button id="findbtn">Find</button> 
+    </div>
+<div id = "outputdiv"></div>
+<script>
+    function GenerateTable() {
+    let numberInput = document.getElementById("number");
+    let limitInput = document.getElementById("limit");
+    let output = document.getElementById("outputdiv");
+
+    const number = parseInt(numberInput.value);
+    const limit = parseInt(limitInput.value);
+
+    for (let i = 1; i <= limit ; i++) {
+        let result = number * i;
+        output.innerHTML += `${number} x ${i} = ${result}<br> `
+        
+    }
+}
+    const findbtn = document.getElementById("findbtn")
+    findbtn.addEventListener('click',GenerateTable)
+
+   
+
+</script>
+</body>
+</html>

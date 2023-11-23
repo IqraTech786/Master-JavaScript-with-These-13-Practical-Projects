@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- <link rel="stylesheet" href="Integration.css"> -->
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="Integration.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delegate Form Project </title>
+    <style>
+        body {
+            padding: 10px;
+            margin: 10px;
+            height: auto;
+            width: auto;
+        }
+
+        /*  */
+
+        .fields .input-field {
+            display: flex;
+            width: calc(100% / 3 - 15px);
+            flex-direction: column;
+            margin: 4px 0;
+        }
+
+        .input-field label {
+            font-size: 17px;
+            font-weight: bold;
+            color: #2e2e2e;
+        }
+
+        .input-field input,
+        select {
+            outline: none;
+            font-size: 14px;
+            font-weight: 400;
+            color: #333;
+            border-radius: 5px;
+            border: 1px solid #aaa;
+            padding: 0 15px;
+            height: 42px;
+            margin: 8px 0;
+        }
+
+        form .fields {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .productlabel {
+            margin-right: 10%;
+            display: block;
+            width: x;
+            height: y;
+            text-align: right;
+            font-size: large;
+        }
+
+        .btn {
+            margin: 15px;
+            padding: 15px;
+            background-color: rgb(25, 25, 88);
+            color: white;
+            text-align: center;
+            font-weight: bold;
+            width: 190px;
+        }
+
+
+        .btn:hover {
+            background-color: white;
+            color: rgb(25, 25, 88);
+            border: 2px solid rgb(25, 25, 88);
+            transition: 0.8s all;
+        }
+
+        .dataTable td {
+            border: 1px solid black;
+        }
+
+        .dataTable td:first-child {
+            width: 48%;
+        }
+
+        #delegates {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+    </style>
+</head>
+
+<body>
+   <h1 align="center"> <u>IQRA  TECHNOLOGY</u> </h1>
+    <div class="reqform">
+        <h1 style="text-align: center;">  
+            Delegate Form 
+        </h1>
+    
+    <label for="Delegates">How Many Delegates to Register</label>
+    <select onchange="GenerateForm()" name="delegate" id="delegate" class="Dropdown" class="custom-select">
+        <option value="0">Please Select ..</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+    </select>
+</div>
+<div id="Repeat"></div>
+<form><div id="Container"></div>
+    <input class="btn" type="button" value="Show Grand Total" onclick="ShowTotal()" id="show">
+    <input class="btn" type="button" value="Next">
+    <input class="btn" type="button" id="submit" value="Submit">
+    <table>
+        <div id="Savedata"></div>
+    </table>
+</form>
+
+    <script>
+        let GenerateForm = ()=> {
+            let selectVal = document.getElementById("delegate").value
+            console.log(selectVal)
+            let disDeleg = document.getElementById("Repeat").innerHTML = ""
+            for (let d = 1; d <= selectVal; d++) {
+                document.getElementById("Repeat").innerHTML +=`
+                <div class="mane">
+                <div id="name">
+                    <form>
+                        <hr>
+                        <h2>DELEGATE - REGISTRATION DETAILS - ${d}</h2>
+                        <h3 style="font-size: 20px;">Please enter the details of the delegate that you wish to register</h3>
+                        <div class="fields">
+                            <div class="input-field">
+                                <label class="DSalutation" for="Salutations">Salutation</label>
+                                <select name="salute" id="salute${d}" value="">
+                                    <option value="select">Please Select...</option>
+                                    <option value="Mr">Mr</option>
+                                    <option value="Dr">Dr</option>
+                                    <option value="Mrs">Mrs</option>
+                                    <option value="Er">Er</option>
+                                </select>
+                            </div>
+        
+                        <div class="input-field">
+                                <label for="dfname">Delegate First name:</label>
+                                <input type="text" id="dfname${d}" value="" name="dfname" placeholder="Delegate First Name" required>
+                                
+                        </div>
+        
+                        <div class="input-field">
+                            <label for="dlname">Delegate Last name:</label>
+                            <input type="text" id="dlname${d}" name="dlname" placeholder="Delegate Last Name" required>
+                        </div>
+        
+                        <div class="input-field">
+                            <label for="demail">Delegate Email:</label>
+                            <input type="email" id="demail${d}" name="demail" placeholder="Enter Email" required>
+                        </div>
+        
+                        <div class="input-field">
+                            <label for="dtelephone">Delegate Telephone:</label>
+                            <input type="Number" id="dtelephone${d}" name="dtelephone" placeholder="Enter Telephone number" required>
+                        </div>
+        
+                        <div class="input-field">
+                            <label for="djob">Delegate Job Title:</label>
+                            <input type="text" id="djob${d}" name="djob" placeholder="Enter Job Title" required>
+                        </div>
+        
+                        <div class="input-field">
+                            <label for="dpass">Delegate Passport Number :</label>
+                            <input type="text" id="dpass${d}" name="dpass" placeholder="Enter your Passport Number" required>
+                        </div>
+                        </div>
+                        <div class="product">
+                            <h2>PRODUCT AND FEES</h2>
+                            <table style="width:100%">
+                <tr>
+                    <td>
+                        <input name="productandfees" type="checkbox" value="5900" id="myCheck1-${d}">
+                        <label for="productandfees">All Access (Delegate)</label>
+                    </td>
+                    <td>
+                        USD 5900
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input name="productandfees" type="checkbox" value="5100" id="myCheck2-${d}">
+                        <label for="productandfees">Strategic Conference (Delegate)</label>
+                    </td>
+                    <td>
+                        USD 5100
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input name="productandfees" type="checkbox" value="1858" id="myCheck3-${d}">
+                        <label for="productandfees">Technical Conference Pass - 4 days (Delegate)</label>
+                    </td>
+                    <td>
+                        USD 1858
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input name="productandfees" type="checkbox" value="1485" id="myCheck4-${d}">
+                        <label for="productandfees">Technical Conference Pass - 2 days (Delegate)</label>
+                    </td>
+                    <td>
+                        USD 1485
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input name="productandfees" type="checkbox" value="1100" id="myCheck5-${d}">
+                        <label for="productandfees">Downstream Technical Conference Pass (Delegate)</label>
+                    </td>
+                    <td>
+                        USD 1100
+                    </td>
+                </tr>
+            </table>
+                </div>
+                <input class="btn" type="button" value="Show Grand Total" onclick="ShowTotal(${d})">
+                <div id="Container">
+                    <h2>PURCHASE SUMMARY</h2>
+                    <table>
+                        <tr>
+                            <td>
+                                Total :
+                            </td>
+                            <td>
+                                (usd)
+                            </td>
+                            <td id="total">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <input class="btn" type="button" value="Next">
+                <div id="Container1">
+                    <div class="maindiv">
+
+                        <h1>
+                            Company Information :
+                        </h1>
+                        <div class="fields">
+
+                            <div class="input-field">
+                                <label> Company Name :</label>
+
+                                <input class="textinput" type="text" id="company" name="fname" value="">
+                            </div>
+                            <div class="input-field">
+                                <label> Street :</label>
+
+                                <input type="text" id="comstr" name="fstreet" value="">
+                            </div>
+                            <div class="input-field">
+                                <label> Town/City :</label>
+
+                                <input type="text" id="town" name="town" value="">
+                            </div>
+                            <div class="input-field">
+                                <label> Country :</label>
+
+                                <input type="text" id="country" name="country" value="">
+                            </div>
+                            <div class="input-field">
+                                <label> Zipcode :</label>
+
+                                <input id="zip" name="zip" type="text" inputmode="numeric" value="">
+                            </div>
+                            <div class="input-field">
+                                <label> State :</label>
+
+                                <input type="text" id="state" name="state" value="">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <h1>
+                        Billing Contact Info :
+                    </h1>
+
+                    <div class="fields">
+
+                        <div class="input-field">
+                            <label class="DSalutation" for="Salutations">Salutation</label>
+                            <select name="salute" id="salute" value="">
+                                <option value="">Please Select...</option>
+                                <option value="Mr">Mr</option>
+                                <option value="Dr">Dr</option>
+                                <option value="Mrs">Mrs</option>
+                                <option value="Er">Er</option>
+                            </select>
+                        </div>
+
+                        <div class="input-field">
+                            <label for="Cfname">First name:</label>
+                            <input type="text" id="Cfname" name="Cfname" placeholder="First Name" value="" required>
+                        </div>
+
+                        <div class="input-field">
+                            <label for="clname">Last name:</label>
+                            <input type="text" id="clname" name="clname" placeholder="Last Name" value="" required>
+                        </div>
+
+                        <div class="input-field">
+                            <label for="cemail">Email:</label>
+                            <input type="email" id="cemail" name="cemail" placeholder="Enter Email" value="" required>
+                        </div>
+
+                        <div class="input-field">
+                            <label for="ctelephone">Telephone:</label>
+                            <input type="phone" id="ctelephone" name="ctelephone" placeholder="Enter Telephone number"
+                                value="" required>
+                        </div>
+                        <div class="input-field"></div>
+                    </div>
+                    <div>
+                        <label for="vat">VAT Registered</label><br>
+                        <input type="radio" id="vatyes" name="vat" value="Yes">
+                        <label for="vatyes">Yes</label>
+                        <input type="radio" id="vatno" name="vat" value="No">
+                        <label for="vatyes">No</label>
+
+                        <div id="Container3">
+                            <div class="input-field">
+                                <input type="text" id="vatnum" name="vatnum" value="" placeholder="Vat Number">
+                            </div>
+                        </div>
+                </div>
+               
+            </form>
+        </div>
+    </div>
+    <hr>
+    <div class="container-fluid">
+        <div id="delegates">
+        </div>
+    </div>
+            <br>
+    <div id="data"></div>`
+
+                
+                
+            }
+        }
+        let arr = [];
+
+let submitform = document.querySelector("#submit");
+submitform.addEventListener("click", () => {
+    let selectVal = document.getElementById("delegate").value;
+
+    for (let v = 1; v <= selectVal; v++) {
+        let salut = document.getElementById("salute" + v).value;
+        let fname = document.getElementById("dfname" + v).value;
+        let lname = document.getElementById("dlname" + v).value;
+        let email = document.getElementById("demail" + v).value;
+        let teleph = document.getElementById("dtelephone" + v).value;
+        let job = document.getElementById("djob" + v).value;
+        let pass = document.getElementById("dpass" + v).value;
+
+        let createdel = {
+            salut,
+            fname,
+            lname,
+            email,
+            teleph,
+            job,
+            pass
+        }
+        arr.push(createdel);
+
+        document.getElementById("Savedata").innerHTML +=
+            `<table style="width:50%">
+                <tr>
+                    <td style="border:2px solid black">Salutation: ${createdel.salut}</td>
+                    <td style="border:2px solid black">First Name: ${createdel.fname}</td>
+                    <td style="border:2px solid black">Last Name: ${createdel.lname}</td>
+                </tr>
+                <tr>
+                    <td style="border:2px solid black">E-Mail: ${createdel.email}</td>
+                    <td style="border:2px solid black">Telephone: ${createdel.teleph}</td>
+                    <td style="border:2px solid black">Job: ${createdel.job}</td>
+                </tr>
+                <tr>
+                    <td style="border:2px solid black">Password Number: ${createdel.pass}</td>
+                    
+                </tr>
+            </table>`;
+            
+    }
+});
+
+function ShowTotal(delegateIndex) {
+    let total = 0;
+
+    for (let i = 1; i <= 5; i++) {
+        let checkbox = document.getElementById(`myCheck${i}-${delegateIndex}`);
+        if (checkbox && checkbox.checked) {
+            total += parseInt(checkbox.value);
+        }
+    }
+
+    document.getElementById("total").innerText = total;
+}
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Method</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        #form-container {
+            border-right: 2px solid #eee;
+            padding: 0 10px;
+        }
+
+        #list {
+            padding: 0 10px;
+        }
+
+        .box {
+            display: none;
+        }
+
+        .toggle {
+            display: none;
+        }
+
+        /* The Modal(background) */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0,0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <h1  align="center"><u> IQRA TECHNOLOGY </u> </h1>
+    <div class="container mt-2">
+        <h3 class="text-center">Payment Method</h3>
+        <button class="btn btn-secondary" id="paymentbtn">Select Payment Method</button>
+        <div id="methodscontainer" class="toggle mt-2">
+            <div id="box">
+                <input type="radio" value="cardForm" name="methodRadio"> <label for="cardForm">Credit/Debit Card</label>
+                <input type="radio" value="upi" name="methodRadio"> <label for="upi">UPI Number</label>
+                <input type="radio" value="others" name="methodRadio"> <label for="account">Account</label>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-6" id="form-container">
+                    <form autocomplete="off" class="box cardForm" id="cardForm">
+                        <h1>Credit/Debit Card Form </h1>
+                        <h6 id="carderror1" class="text-danger">All filed are mandatory</h6>
+                        <hr>
+                        <table style="width: 100%;">
+                            <tr>
+                                <td colspan="2">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="cardnumber"
+                                            placeholder="Enter Credit Card Number">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="cardname"
+                                            placeholder="Enter your name on card">
+                                    </div>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td style="width: 50%;">
+                                    <div class="form-group mr-3">
+                                        <input type="date" class="form-control" id="cardexpiry" disabled>
+                                    </div>
+                                </td>
+                                <td style="width: 50%;">
+                                    <div class="form-group">
+                                        <select class="custom-select" id="cardtype">
+                                            <option selected value="">Choose...</option>
+                                            <option value="Visa">Visa</option>
+                                            <option value="Master">Master</option>
+                                            <option value="Rupay">Rupay</option>
+                                            <option value="other">other</option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <button type="button" class="btn btn-secondary" style="width: 100%;"
+                                        onclick="generatecvv('cardForm')"> Generate
+                                        CVV</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div class=" mt-3" style="width: 50%;margin: 1rem auto;">
+                                        <input type="number" class="form-control" id="cardcvv1" placeholder="Enter CVV">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><input type="submit" class="btn btn-secondary" onclick="formSubmit(event,'cardForm')"
+                                        style="width: 100%;"></input></td>
+                            </tr>
+                        </table>
+                        <hr>
+
+                    </form>
+                    <form autocomplete="off" class="box upi" id="upi">
+                        <h1>UPI Payment Form </h1>
+                        <h6 id="carderror2" class="text-danger">All filed are mandatory</h6>
+
+                        <hr>
+                        <table style="width: 100%;">
+                            <tr>
+                                <td colspan="2">
+                                    <div class="form-group">
+                                        <input type="number" class="form-control" id="upinumber"
+                                            placeholder="Enter UPI number">
+                                    </div>
+                                </td>
+                            </tr>
+                             <!-- 
+                    
+                        9043681072
+                        7531208496
+                        6079356418
+                        2897503461
+                        4563872109
+                        3974610825
+                        7382965041
+                        2540187693
+                        9682735041 -->
+                            <tr>
+                                <td colspan="2">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="upiname"
+                                            placeholder="Enter Your Name">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><button type="button"  style="width: 100%;"
+                                        onclick="generatecvv('upi')">Generate
+                                        CVV</button></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="form-group mt-3" style="width: 50%;margin: 1rem auto;">
+                                        <input type="number" class="form-control" id="cardcvv2"
+                                            placeholder="Enter CVV">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><input type="submit" onclick="formSubmit(event,'upi')" class="btn btn-secondary"
+                                        style="width: 100%;"></input></td>
+                            </tr>
+                        </table>
+                        <hr>
+
+                    </form>
+                    <form autocomplete="off" class="box others" id="account">
+                        <h1>Account Payment Form </h1>
+                        <h6 id="carderror3" class="text-danger">All filed are mandatory</h6>
+                        <hr>
+                        <table style="width: 100%;">
+                            <tr>
+                                <td colspan="2">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="accountname"
+                                            placeholder="Enter Your Name">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="form-group">
+                                        <input type="number" class="form-control" id="accountnumber"
+                                            placeholder="Enter Account Number">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="form-group">
+                                        <input type="number" class="form-control" id="reaccountnumber"
+                                            placeholder="Re-Enter Account Number">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 50%;">
+                                    <div class="form-group mr-3">
+                                        <input type="text" class="form-control" id="ifsccode" placeholder="IFSC Code">
+                                    </div>
+                                </td>
+                                <td style="width: 50%;">
+                                    <div class="form-group mr-3">
+                                        <input type="text" class="form-control" id="branchname"
+                                            placeholder="Branch Name">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><button type="button" class="btn btn-secondary" style="width: 100%;"
+                                        onclick="generatecvv('account')">Generate
+                                        CVV</button></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div class=" mt-3" style="width: 50%;margin: 1rem auto;">
+                                        <input type="number" class="form-control" id="cardcvv3"
+                                            placeholder="Enter CVV">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><button onclick="formSubmit(event,'account')" class="btn btn-secondary" style="width: 100%;">Save
+                                        Account Details</button></td>
+                            </tr>
+                        </table>
+                        <hr>
+
+                    </form>
+                </div>
+                <div id="col-6" class="toggle">
+                    <div style="overflow-x: auto;" id="list">
+                        <h1>List of saved details <span id="card-error"></span></h1>
+                        <br>
+                        <table class="table table-bordered mt-3" id="showdata">
+                            <tr>
+                                <th>Name</th>
+                                <th>Method Type</th>
+                                <th colspan="2">Action</th>
+                            </tr>
+                            <tr>
+
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal content -->
+    <div class="modal-content" id="modal" style="display: none;">
+        <span onclick="closemodal()" style="display: none;">&times;</span>
+        <p id="fullpaymentdetails"></p>
+    </div>
+
+    
+    <script>
+        var dt_table = document.getElementById('col-6');
+        let expdate = document.getElementById('cardexpiry');
+        expdate.valueAsDate = new Date();
+        let carderror1 = document.getElementById('carderror1');
+        let carderror2 = document.getElementById('carderror2'); 
+        let carderror3 = document.getElementById('carderror3'); 
+        let cardnum = document.getElementById('cardnumber');
+        let cardname = document.getElementById('cardname');
+        let cardType = document.getElementById('cardtype');
+        let cardValue = null;
+        let cvv;
+        let upiArr = [8254637019,9043681072,7531208496,6079356418,2897503461,4563872109,3974610825, 7382965041,2540187693,9682735041];
+        let upiname = document.getElementById('upiname');
+        let upin = document.getElementById('upinumber');
+        let fullData = [];
+
+        let accountname = document.getElementById('accountname');
+        let accountnumber = document.getElementById('accountnumber');
+        let reaccountnumber = document.getElementById('reaccountnumber');
+        let ifsccode = document.getElementById('ifsccode');
+        let branchname = document.getElementById('branchname');
+
+        cardType.addEventListener('change',()=>{
+            cardValue = document.getElementById('cardtype').value;
+            
+        })
+
+
+
+        let dataObj = {};
+
+        document.getElementById('paymentbtn').addEventListener('click',()=>{
+            var container = document.getElementById('methodscontainer');
+            if(container.classList.contains('toggle')){
+                container.classList.remove('toggle');
+            }
+            else {
+                container.classList.add('toggle');
+            }
+        })
+
+        document.addEventListener('DOMContentLoaded',()=>{
+            let redio = document.getElementsByName('methodRadio');
+            // let redio = document.querySelectorAll('input[name="methodRadio"]');
+            redio.forEach(elm=>{
+                elm.addEventListener("click",()=>{
+                    // console.log(elm);
+                    let elmValue = elm.getAttribute('value');
+                    let boxes = document.querySelectorAll('.box');
+                    let form = document.querySelector('.' + elmValue);
+                    // console.log(form);
+                    boxes.forEach(box=>{
+                        if(box !== form){
+                            box.style.display = "none";
+                            dt_table.classList.remove('toggle');
+                        }
+                        else{
+                            box.style.display = "block";
+                        }
+                    })
+                })
+            })
+            // console.log(redio);
+        })
+
+
+        function generatecvv(formType){
+            cvv1 = Math.floor(Math.random() * 900) + 100;
+            cvv2 = Math.floor(Math.random() * 900) + 100;
+            cvv3 = Math.floor(Math.random() * 900) + 100;
+            // console.log(formType);
+            let value = formVerify(formType);
+            if (formType == 'cardForm'){
+                if(value == true){
+                carderror1.classList.remove('text-danger');
+                carderror1.classList.add('text-success');
+                carderror1.innerText = `Successfully Validate, Your CVV is ${cvv1}`;
+            }
+            }
+            else if (formType == 'upi'){
+                if(value == true){
+                carderror2.classList.remove('text-danger');
+                carderror2.classList.add('text-success');
+                carderror2.innerText = `Successfully Validate, Your CVV is ${cvv2}`;
+                }
+            }
+            else if (formType == 'account'){
+                console.log(cvv3);
+                if(value == true) {
+                    carderror3.classList.remove('text-danger');
+                    carderror3.classList.add('text-success');
+                    carderror3.innerText = `Successfully Validate, Your CVV is ${cvv3}`;
+                }
+            }
+            
+           
+        }
+
+        function formVerify(formType) {
+            var re = /^[A-Za-z]+$/;
+
+            if (formType == 'cardForm'){
+                if(cardnum.value.length != 4 || re.test(cardnum.value)){
+                    carderror1.classList.add("text-danger");
+                    carderror1.classList.remove('text-success');
+                    carderror1.innerText = "Card Number must contain 4 numberic equal number";
+                    return false;
+                }
+                else if(!isNaN(cardname.value) || cardname.value === " " || !re.test(cardname.value)){
+                    carderror1.classList.add('text-danger');
+                    carderror1.classList.remove('text-success');
+                    carderror1.innerText = "Card Name must contain letters and must not be blank";
+                    return false;
+                }
+                else if (cardValue == null){
+                    carderror1.classList.add('text-danger');
+                    carderror1.classList.remove('text-success');
+                    carderror1.innerText = "Select Card Type";
+                    return false;  
+                }
+                // else return true;
+                dataObj.number = cardnum.value;
+                dataObj.expdate = expdate.value;
+                dataObj.name = cardname.value;
+                dataObj.cardType = cardValue;
+                dataObj.methodType = formType;
+            }
+            else if(formType == 'upi'){
+                let upi = document.getElementById('upinumber').value;
+                let upiN = null
+
+                for (let index = 0; index < upiArr.length; index++) {
+                    if (upi == upiArr[index]){
+                        upiN = upi;
+                        break;
+                    }else{
+
+                    }
+                }
+                if (upiN == null) {
+                    carderror2.classList.add('text-danger');
+                    carderror2.classList.remove('text-success');
+                    carderror2.innerHTML = "Wrong UPI number";
+                    return false;
+                }
+                else if(!isNaN(upiname.value) || upiname.value === " " || !re.test(upiname.value)){
+                    carderror2.classList.add('text-danger');
+                    carderror2.classList.remove('text-success');
+                    carderror2.innerText = "Upi Name must contains only alphabets";
+                    return false;
+                }
+                dataObj.number = '';
+                dataObj.expdate = '';
+                dataObj.name = '';
+                dataObj.cardType = '';
+                dataObj.upinumber = upin.value;
+                dataObj.upiname = upiname.value;
+                dataObj.methodType = formType;
+            }
+            else if(formType == 'account'){
+                var re = /[0-9]/
+                let valid = re.test(accountnumber.value);
+                let ifvalid = re.test(ifsccode.value);
+                if (!isNaN(accountname.value) || accountname.value === " "){
+                    carderror3.classList.add('text-danger');
+                    carderror3.classList.remove('text-success');
+                    carderror3.innerText = "Account Name must contain letters and must not be blank";
+                    return false;
+                }
+                else if (accountnumber.value.length != 9 || !valid){
+                    carderror3.classList.add("text-danger");
+                    carderror3.classList.remove('text-success');
+                    carderror3.innerText = "Account Number Can't be more or less than 9 numbers";
+                    return false;
+                }
+                else if (reaccountnumber.value != accountnumber.value){
+                    carderror3.classList.add("text-danger");
+                    carderror3.classList.remove('text-success');
+                    carderror3.innerText = "ReAccount Number must be same as account number";
+                    return false;
+                }
+                else if(ifsccode.value < 5 || ifsccode.value < 4){
+                    carderror3.classList.add("text-danger");
+                    carderror3.classList.remove('text-success');
+                    carderror3.innerText = "Enter 4 Digit Valid IFSC code";
+                    return false;
+                }
+                else if (re.test(branchname.value)){
+                    carderror3.classList.add("text-danger");
+                    carderror3.classList.remove('text-success');
+                    carderror3.innerText = "Branch Name cannot be Numbers";
+                    return false;
+                }
+                dataObj.number = '';
+                dataObj.expdate = '';
+                dataObj.name = '';
+                dataObj.cardType = '';
+                dataObj.upinumber = '';
+                dataObj.upiname = '';
+                dataObj.accountname = accountname.value;
+                dataObj.accountnumber = accountnumber.value;
+                dataObj.IFSCcode = ifsccode.value;
+                dataObj.branchname = branchname.value;
+                dataObj.methodType = formType;
+            }
+            return true;
+        }
+
+        function formSubmit(event,formType) {
+            event.preventDefault();
+            console.log(event);
+            let cardcvv1 = document.getElementById('cardcvv1').value;
+            let cardcvv2 = document.getElementById('cardcvv2').value;
+            let cardcvv3 = document.getElementById('cardcvv3').value
+            if (formType == 'cardForm'){
+                if (cardcvv1 == cvv1) {
+                carderror1.innerText = "Your card has been saved after cvv validation";
+                setTimeout(function() {
+                    savedata(dataObj,'cardForm');
+                    document.getElementById('cardForm').reset();
+                },2000);
+            }
+            else {
+                carderror1.classList.add('text-danger');
+                carderror1.classList.remove('text-success');
+                carderror1.innerText = 'Entered cvv is invalid';
+            }
+            }
+            else if (formType == 'upi'){
+                if (cardcvv2 == cvv2) {
+                carderror2.innerText = "Your card has been saved after cvv validation";
+                setTimeout(function() {
+                    savedata(dataObj,'upi');
+                    document.getElementById('upi').reset();
+                },2000);
+            }
+            else {
+                carderror2.classList.add('text-danger');
+                carderror2.classList.remove('text-success');
+                carderror2.innerText = 'Entered cvv is invalid';
+            }
+            }
+            else if (formType == 'account'){
+                if (cardcvv3 == cvv3) {
+                carderror3.innerText = "Your card has been saved after cvv validation";
+                setTimeout(function() {
+                    savedata(dataObj,'account');
+                    document.getElementById('account').reset();
+                },2000);
+            }
+            else {
+                carderror3.classList.add('text-danger');
+                carderror3.classList.remove('text-success');
+                carderror3.innerText = 'Entered cvv is invalid';
+            }
+            }
+           
+           
+        }
+
+        function savedata(obj,formType) {
+            fullData.push(obj);
+            var showdata = document.getElementById('showdata');
+            var element  = document.createElement('tr');
+            if (formType == 'cardForm'){
+                element.innerHTML = `
+                <tr id = 'row-${obj.methodType}'>
+                    <td>${obj.name}</td>
+                    <td>${obj.methodType}</td>
+                    <td><button class="btn btn-sm btn-secondary" type="button" id = "myModal" class ="modal" onclick="showdetailsmodal('${obj.name}','cardForm')"> Full Details </button>
+                    </td>
+                    <td><button class="btn btn-sm btn-secondary" onclick="removedata(this)"> Remove </button>
+                    </td>
+                </tr>
+                `
+
+            showdata.appendChild(element)
+            }
+            else if (formType == 'upi'){
+                element.innerHTML = `
+                <tr id = 'row-${obj.methodType}'>
+                    <td>${obj.upiname}</td>
+                    <td>${obj.methodType}</td>
+                    <td><button class="btn btn-sm btn-secondary" type="button" id = "myModal" class ="modal" onclick="showdetailsmodal('${obj.upiname}','upi')"> Full Details </button>
+                    </td>
+                    <td><button class="btn btn-sm btn-secondary" onclick="removedata(this)"> Remove </button>
+                    </td>
+                </tr>
+                `
+
+            showdata.appendChild(element)
+            }
+            else if (formType == 'account'){
+                element.innerHTML = `
+                <tr id = 'row-${obj.methodType}'>
+                    <td>${obj.accountname}</td>
+                    <td>${obj.methodType}</td>
+                    <td><button class="btn btn-sm btn-secondary" type="button" id = "myModal" class ="modal" onclick="showdetailsmodal('${obj.accountname}','account')"> Full Details </button>
+                    </td>
+                    <td><button class="btn btn-sm btn-secondary" onclick="removedata(this)"> Remove </button>
+                    </td>
+                </tr>
+                `
+
+            showdata.appendChild(element)
+            }
+        } 
+
+        function showdetailsmodal(obj,formType){
+            document.getElementById('modal').style.display = "block";
+            if(formType == 'cardForm'){
+                fullData.forEach(data=>{
+                if(data.name == obj){
+                    console.log(data);
+                    document.getElementById('fullpaymentdetails').innerHTML += `name : ${data.name},<br>
+                    number : ${data.number},<br>
+                    exp-date : ${data.expdate},<br>
+                    cardType : ${dataObj.cardType},<br>
+                    `
+                }
+            })
+            }
+            else if (formType == 'upi'){
+                fullData.forEach(data=>{
+                if(data.upiname == obj){
+                    console.log(data);
+                    document.getElementById('fullpaymentdetails').innerHTML += `UPI name : ${data.upiname},<br>
+                    UPI number : ${data.upinumber},<br>
+                    `
+                }
+            })
+            }
+            else if (formType == 'account'){
+                fullData.forEach(data=>{
+                if(data.accountname == obj){
+                    console.log(data);
+                    document.getElementById('fullpaymentdetails').innerHTML += `Account Name : ${data.accountname},<br>
+                    Account number : ${data.accountnumber},<br>
+                    IFSC code : ${data.IFSCcode},<br>
+                    Branch Name : ${data.branchname},<br>
+                    `
+                }
+            })
+            }
+        
+        }
+
+        function closemodal(){
+            document.getElementById('modal').style.display = "none";
+        }
+
+        function removedata(element) {
+            element.parentElement.parentElement.remove();
+        }
+
+    </script>
+</body>
+</html>

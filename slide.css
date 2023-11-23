@@ -1,0 +1,31 @@
+body {
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  .slider-container {
+    text-align: center;
+  }
+  
+  .review {
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin: 20px 0;
+  }
+  
+  #slider-image {
+    cursor: pointer;
+  }
+  
+  .buttons {
+    margin-top: 10px;
+  }
+  
+  button {
+    margin: 0 5px;
+  }
+  

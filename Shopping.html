@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1 align="center"><u>IQRA TECHNOLOGY </u></h1>
+    <div>
+        <div class="container">
+            <form id="coupon">
+                <div class="row " id="couponAll">
+                    <label class="col-2" for="product-name">Add Coupon :</label>
+                    <div class="col-3">
+                        <input type="text" placeholder="Enter Coupon code" id="couponcode">
+                    </div>
+                    <div class="col-3">
+                        <input type="text" placeholder="Enter Coupon percentage" id="couponpercentage">
+                    </div>
+                    <div class="col-2">
+                        <button class="btn" type="button" onclick="addcoupon()">Add Coupon</button>
+                    </div>
+                    <div class="col-2">
+                        <button class="btn" id="btn_success">
+                            Coupon added!!
+                        </button>
+                    </div>
+            </form>
+        </div>
+        <div class="row" style="display: flex">
+            <div class="col-6">
+                <form id="product-form">
+                    <label for="product-image">Product Image:</label>
+                    <div class="row">
+                        <div class="col-md-6" style="height: 150; width: 250px">
+                            <img src="default.jpg" id="preview"
+                                style="width: 100%; height: 100%; object-fit: contain" />
+                        </div>
+                        <div class="col-6">
+                            <input type="file" id="product-image" />
+                        </div>
+                    </div>
+                    <div class="form-group mt-2">
+                        <label class="font-weight-bold" for="product-name">Product Name:</label>
+                        <input type="text" id="product-name" placeholder="Enter Product Name" />
+                    </div>
+                    <div class="form-group mt-2">
+                        <label for="product-description">Product Description:</label>
+                        <textarea id="product-description" placeholder="Enter Product Description"></textarea>
+                    </div>
+                    <div class="form-group mt-2">
+                        <label for="product-price">Product Price:</label>
+                        <input type="text" id="product-price" placeholder="Enter Product Price" />
+                    </div>
+                    <button type="button" class="btn btn-secondary" onclick="addtolist()">
+                        Add to List
+                    </button>
+                </form>
+            </div>
+
+            <div class="col-6" style="height: 40rem; position: relative; width: 600px">
+                <table id="cart" class="table">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cart-items">
+                        <tr id="empty-cart">
+                            <td colspan="5" class="text-center">Your cart is empty</td>
+                        </tr>
+                    </tbody>
+                    <tfoot id="carttrow">
+                        <tr>
+                            <td colspan="3">Total Amount</td>
+                            <td id="total"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">Apply Code</td>
+                            <td colspan="2">
+                                <select id="couponselect">
+                                    <option>Select Coupon</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">Final Amount </td>
+                            <td id="finalPrice"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" class="text-center">
+                                <a class="btn btn-secondary" id="toPayment">Payble Amount<span id="finalPri"></span></a>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <hr />
+
+        <div class="gallery row" id="products">
+
+        </div>
+    </div>
+    <script>
+        let couponcode = document.getElementById('couponcode');
+        let couponpercent = document.getElementById('couponpercentage');
+        document.getElementById('btn_success').style.display = "none";
+        const finalPrice = document.getElementById('finalPrice'); 
+
+        function addcoupon() {999999
+            var re = /^[A-Z]{5}$/
+            let couponcheck = re.test(couponcode.value);
+
+            if (!couponcheck) {
+                alert("Please enter a valid coupon code in uppercase with no numbers and exactly 5 characters, and a non-empty coupon percentage that is a number");
+            }
+            else if (!couponpercent.value || isNaN(couponpercent.value) || couponpercent.value <= 0 || couponpercent.value > 100) {
+                alert("Discount has to be in numbers and can't be more than 100 percent");
+            }
+            else {
+                document.getElementById('btn_success').style.display = "block";
+
+                document.getElementById('couponselect').innerHTML += `
+            <option Value="${couponpercent.value}"> ${couponcode.value} - ${couponpercent.value}</option>           
+            `
+                document.getElementById('couponAll').reset();
+
+            }
+        }
+
+        let productname = document.getElementById('product-name');
+        let productdisc = document.getElementById('product-description');
+        let productprice = document.getElementById('product-price');
+        const image = document.querySelector("img");
+        const input = document.querySelector("#product-image");
+        let dataObj = {};
+
+        input.addEventListener("change", () => {
+            image.src = URL.createObjectURL(input.files[0]);
+        });
+
+        function addtolist() {
+
+            let value = formverify();
+            if (value == true) {
+
+                document.getElementById('products').innerHTML +=
+                    `
+                            <div class="content">
+                                <img src="${URL.createObjectURL(input.files[0])}" class="product-image img" id="prod-img" style="height: 450; width: 300px">
+                                <h3 class="product-name" id="product-name2">${productname.value}</h3>
+                                <p class="product-description" id="product-description2" style="margin-bottom:0rem;">${productdisc.value}</p>
+                                <p class="product-price" id="product-price2" style="margin-bottom:0rem;">&#x20b9 ${productprice.value}</p>
+                                <div class="product-quantity"
+                                    style="display:flex; flex-direction:column; align-items:center; justify-content:center;">
+                                 <button class='buy add-to-cart mt-2' onclick="addtocart('${URL.createObjectURL(input.files[0])}','${productname.value}','${productprice.value}')">Add to Cart</button>
+                                </div>
+                             </div>
+                        `
+
+                // productimag2.src =  URL.createObjectURL(input.files[0]);
+                dataObj.productname = productname.value;
+                dataObj.productprice = productprice.value;
+
+
+                document.getElementById('product-form').reset();
+                document.getElementById('preview').src = "default.jpg"
+            }
+        }
+
+        function formverify() {
+            var re = /^[A-Za-z]+$/;
+            // var are = /[0-9]/;
+            // let valid = are.test(productprice.value);
+            if (!isNaN(productname.value) || productname.value === " " || !re.test(productname.value)) {
+                alert("Product Name must contain letters and must not be blank");
+                return false;
+            }
+            else if (!isNaN(productdisc.value)) {
+                alert("Product Discription must contain letters and must not be blank");
+                return false;
+            }
+            else if (isNaN(productprice.value) || productprice.value.length <= 0) {
+                alert("Product Price must contain only letters and must be greater than 0");
+                return false;
+            }
+            return true;
+        }
+
+        let productname2 = document.getElementById('product-name2');
+        let productdisc2 = document.getElementById('product-description2');
+        let productprice2 = document.getElementById('product-price2');
+        let productimag2 = document.getElementById('prod-img');
+
+        let total = document.getElementById('total');
+        let couponselect = document.getElementById('couponselect');
+        let finalpri = document.getElementById('finalPrice');
+
+        let numb;
+        let grandTotal = 0;
+        let arr = [];
+        let newTotal = 0;
+        let discount = 0;
+        let finaltotal = 0;
+
+
+        function addtocart(imge, eve1, eve2) {
+            console.log(productname.value);
+            document.getElementById('empty-cart').style.display = 'none';
+
+            let id = Date.now();
+
+            document.getElementById("cart-items").innerHTML += `
+        <tr>
+            <td> <img src= "${imge}" id="img3" style="height: 50px; width: 50px">  </td>
+            <td> ${eve1} </td>
+            <td> ${eve2} </td>
+            <td> 
+                <span class="adjust-quantity" onclick="adjustQuantity('${id}', 'increase')">+</span>
+                <input type="number" id="quant-${id}" value="1" data-price="${parseInt(eve2)}">
+                <span class="adjust-quantity" onclick="adjustQuantity('${id}', 'decrease')">-</span>
+            </td>
+            <td id="finalamt-${id}"> ${eve2} </td>
+        </tr>
+    `
+
+            grandTotal += parseInt(eve2);
+            document.getElementById('total').textContent = grandTotal;
+            updateGrandTotal();
+        }
+
+
+        document.getElementById('couponselect').addEventListener("change", function () {
+            let firstSum = parseInt(document.getElementById('total').textContent); // Parse as integer
+            let secondSum = parseInt(document.getElementById('couponselect').value); // Parse as integer
+            discount = (firstSum * secondSum) / 100;
+            finaltotal = firstSum - discount;
+            document.getElementById('finalPrice').textContent = finaltotal.toString();
+        });
+
+
+        function adjustQuantity(id, action) {
+            const quantityInput = document.getElementById(`quant-${id}`);
+            let quantity = parseInt(quantityInput.value);
+
+            if (action === 'increase') {
+                quantity++;
+            } else if (action === 'decrease' && quantity > 1) {
+                quantity--;
+            }
+
+            quantityInput.value = quantity;
+            calculateTotal(quantityInput, document.getElementById(`finalamt-${id}`));
+        }
+
+        function calculateTotal(quantityInput, totalCell) {
+            const price = parseInt(quantityInput.getAttribute('data-price'));
+            const quantity = parseInt(quantityInput.value);
+            const total = price * quantity;
+            totalCell.textContent = total;
+            updateGrandTotal();
+        }
+
+        function updateGrandTotal() {
+            const quantityInputs = document.querySelectorAll('input[type="number"][id^="quant-"]');
+            let totalSum = 0; // Use a different variable name to avoid conflict
+
+            quantityInputs.forEach(input => {
+                const id = input.getAttribute('id').substring(6);
+                const price = parseInt(input.getAttribute('data-price'));
+                const quantity = parseInt(input.value);
+                const total = price * quantity;
+                totalSum += total; // Update the totalSum variable
+            });
+
+            const selectedCoupon = parseInt(couponselect.value);
+            const discountAmount = (totalSum * selectedCoupon) / 100;
+            // const finalAmount = totalSum - discountAmount;
+
+            total.textContent = totalSum;
+            finalPrice.textContent = finalAmount;
+        }
+
+
+
+
+
+    </script>
+</body>
+
+</html>

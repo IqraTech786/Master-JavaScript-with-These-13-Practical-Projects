@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Javascript Session Task</title>
+    <style>
+        .highlight {
+            background-color:black;
+            color:white;
+
+        }
+    </style>
+</head>
+<body>
+    <div class="iqra">
+        <h1 align="center"><u>Iqra Technology</u></h1>
+        <!-- <h1 align="center"> Javascript Session 05</h1> -->
+        <h2>Q.2 Write a JavaScript program that defines a function called findLargestNumber 
+            which takes three numbers as parameters and returns the largest of the three.
+             Call this function with numbers 12, 6, and 8.</h2>
+        <h3> RESULT---</h3>
+        <p id="demo"></p> 
+    </div>
+    <ul id="dynamicList"></ul>
+
+    <script>
+        function createList() {
+            const listInput = prompt("Enter the Values to the list seperated by Comma's");
+            if (!listInput) return; // If cancel is clicked
+
+            const values = listInput.split(',').map(value => value.trim());
+
+            if (values.length === 1 && values[0] === '') {
+                alert("Input cannot be empty.");
+                return;
+            }
+
+            if (values.length > 6) {
+                alert("Please enter a maximum of 6 values.");
+                return;
+            }
+
+            const dynamicList = document.getElementById('dynamicList');
+            dynamicList.innerHTML = '';
+
+            values.forEach(value => {
+                const listItem = document.createElement('li');
+                listItem.textContent = value;
+                dynamicList.appendChild(listItem);
+            });
+        }
+
+        function highlightSibling() {
+            const siblingIndex = parseInt(prompt("Choose a target sibling element (1 to 6):"));
+            if (!siblingIndex) return; // If cancel is clicked
+
+            if (isNaN(siblingIndex) || siblingIndex < 1 || siblingIndex > 6) {
+                alert("Invalid choice. Please choose a number from 1 to 6.");
+                return;
+            }
+
+            const dynamicList = document.getElementById('dynamicList');
+            const targetSibling = dynamicList.children[siblingIndex - 1];
+
+            if (targetSibling) {
+                targetSibling.classList.add('highlight');
+            }
+        }
+
+        createList();
+        highlightSibling();
+    </script>
+</body>
+</html>

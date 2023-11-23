@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>Image Slider</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 100vh;
+      margin: 0;
+      background-color: #f5f5f5; /* Change the background color as needed */
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    .slider-container {
+      text-align: center;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    .slider img {
+      max-width: 100%;
+      max-height: 500px; /* Adjust the height as needed */
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+      margin-bottom: 15px;
+    }
+
+    button {
+      font-size: 16px;
+      padding: 10px 20px;
+      margin: 0 5px;
+      cursor: pointer;
+      background-color: #4caf50;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      outline: none;
+    }
+
+    button:hover {
+      background-color: green;
+    }
+
+    button:active {
+      background-color: green;
+    }
+  </style>
+</head>
+<body>
+  <h1  align="center"> <U>IQRA TECHNOLOGY</U> </h1>
+  <h1>Image Slider </h1>
+  <div class="slider-container">
+    <div class="slider">
+      <img id="sliderImage" src="satoro1.jpg" alt="Slider Image">
+    </div>
+    <button id="prevBtn">Previous</button>
+    <button id="nextBtn">Next</button>
+    <button id="randomBtn">Random</button>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const sliderImage = document.getElementById('sliderImage');
+      const prevButton = document.getElementById('prevBtn');
+      const nextButton = document.getElementById('nextBtn');
+      const randomButton = document.getElementById('randomBtn');
+
+      const images = [
+        "satoro1.jpg",
+        "image2.avif",
+        "satoro1.jpg",
+        "image4.avif",
+
+        // Add more image URLs as needed
+      ];
+
+      let currentImageIndex = 0;
+
+      function showImage(index) {
+        sliderImage.src = images[index];
+      }
+
+      function showNextImage() {
+        currentImageIndex = (currentImageIndex + 1) % images.length;
+        showImage(currentImageIndex);
+      }
+
+      function showPrevImage() {
+        currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+        showImage(currentImageIndex);
+      }
+
+      function showRandomImage() {
+        const randomIndex = Math.floor(Math.random() * images.length);
+        currentImageIndex = randomIndex;
+        showImage(currentImageIndex);
+      }
+
+      // Initialize the slider with the first image
+      showImage(currentImageIndex);
+
+      // Event listeners for buttons
+      prevButton.addEventListener('click', showPrevImage);
+      nextButton.addEventListener('click', showNextImage);
+      randomButton.addEventListener('click', showRandomImage);
+    });
+  </script>
+</body>
+</html>
